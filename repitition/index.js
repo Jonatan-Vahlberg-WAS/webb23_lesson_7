@@ -45,11 +45,6 @@ function run() {
       let userTweets = await getUserTweets(user1?.id)
       console.log("User tweets: ", userTweets.length)
 
-      await createTweet({
-        user: user1._id,
-        content: "Jävla skit hemsida"
-      })
-
       let latestTweets = await getLatestTweets()
 
 

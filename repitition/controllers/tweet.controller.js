@@ -17,7 +17,7 @@ async function getLatestTweets() {
     try {
         const latestTweets = await Tweet.find().sort({
           createdAt: "desc",
-        }).limit(3)
+        }).limit(3).populate("user")
         console.log("latest tweets", latestTweets);
         return latestTweets
     } catch (error) {
@@ -29,7 +29,7 @@ async function getUserTweets(userId) {
     try {
         const tweets = await Tweet.find({
             user: userId
-        })
+        }).populate("user")
         return tweets
     } catch (error) {
         console.error("Error getting user tweets", error)
