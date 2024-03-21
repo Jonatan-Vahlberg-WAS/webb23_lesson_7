@@ -9,6 +9,8 @@ const {
   deleteUserById,
 } = require("./controllers/user.controller");
 const { getRandomUser } = require("./utils/factories/userFactory");
+const { createTweet, getUserTweets } = require("./controllers/tweet.controller");
+const { getRandomTweet } = require("./utils/factories/tweetFactory");
 
 const uri = "mongodb://127.0.0.1:27017/l7_rep";
 
@@ -39,6 +41,9 @@ function run() {
       let user3 = await createUser(getRandomUser())
       const deleted = await deleteUserById("65fbf3769a71ab607bc86168");
       console.log("User was deleted: ", deleted)
+
+      let userTweets = await getUserTweets(user1?.id)
+      console.log("User tweets: ", userTweets.length)
 
       mongoose
         .disconnect()
