@@ -9,7 +9,25 @@ const tweetSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+// Handle language filter replace "fan", "helvete" with ****
+tweetSchema.pre("save", async function (next) {
+  const tweet = this;
+  console.log("Pre save: ", tweet)
+  if (tweet.isModified("content") || tweet.isNew) {
+    const swearWords = ["fan", "helvete", "helvetes", "jävla", "skit"];
+    let contentWords = tweet.content.split(" ");
+    contentWords = contentWords.map((word) => {
+        if (swearWords.includes(word.toLowerCase())) {
+          console.log("Banned Word detected", word)
+        return "****";
+      }
+      return word;
+    });
+    tweet.content = contentWords.join(" ");
+  }
+    return next()
+});
 
-const Tweet = mongoose.model("Tweet", tweetSchema)
+const Tweet = mongoose.model("Tweet", tweetSchema);
 
-module.exports = Tweet
+module.exports = Tweet;

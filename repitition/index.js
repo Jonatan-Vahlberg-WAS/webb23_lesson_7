@@ -9,7 +9,7 @@ const {
   deleteUserById,
 } = require("./controllers/user.controller");
 const { getRandomUser } = require("./utils/factories/userFactory");
-const { createTweet, getUserTweets } = require("./controllers/tweet.controller");
+const { createTweet, getUserTweets, getLatestTweets } = require("./controllers/tweet.controller");
 const { getRandomTweet } = require("./utils/factories/tweetFactory");
 
 const uri = "mongodb://127.0.0.1:27017/l7_rep";
@@ -44,6 +44,14 @@ function run() {
 
       let userTweets = await getUserTweets(user1?.id)
       console.log("User tweets: ", userTweets.length)
+
+      await createTweet({
+        user: user1._id,
+        content: "Jävla skit hemsida"
+      })
+
+      let latestTweets = await getLatestTweets()
+
 
       mongoose
         .disconnect()
